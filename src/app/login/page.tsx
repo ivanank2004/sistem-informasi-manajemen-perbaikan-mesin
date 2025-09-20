@@ -16,16 +16,31 @@ export default function LoginPage() {
     setLoading(true);
     setError(false);
 
-    setTimeout(() => {
-      setLoading(false);
-      if (username === 'admin' && password === '1234') {
-        router.push('/dashboard');
-      } else {
+    setTimeout(async () => {
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          setError(true);
+          setTimeout(() => setError(false), 3000);
+        } else {
+          router.push('/dashboard');
+        }
+      } catch (err) {
         setError(true);
         setTimeout(() => setError(false), 3000);
+      } finally {
+        setLoading(false);
       }
-    }, 800);
+    }, 800); // delay loading 800ms seperti versi lama
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F5F7FA] relative">
@@ -43,7 +58,7 @@ export default function LoginPage() {
       {/* ===== Card Login ===== */}
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         <h1 className="text-3xl font-bold text-[#1565C0] mb-6 text-center">
-          PT AGRO FUTURE INDO
+          PT AGRO MAJU INDO
         </h1>
         <p className="text-[#263238] text-center mb-6">Selamat datang</p>
 
