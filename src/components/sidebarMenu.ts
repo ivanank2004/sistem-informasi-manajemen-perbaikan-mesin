@@ -21,8 +21,9 @@ export const sidebarMenu: Record<'admin' | 'maintenance' | 'logistics', MenuItem
         { label: 'Corrective', path: '/dashboard/maintenance/corrective' },
       ],
     },
-    { label: 'Work Order', icon: 'workOrder', path: '/dashboard/work-orders' },
+    { label: 'Work Order', icon: 'work_order', path: '/dashboard/work-orders' },
     { label: 'Analytics', icon: 'analytics', path: '/dashboard/analytics' },
+    { label: 'Settings', icon: 'settings', path: '/dashboard/settings'},
   ],
   logistics: [
     { label: 'Dashboard', icon: 'dashboard', path: '/dashboard' },

@@ -1,5 +1,16 @@
+// app/api/users/route.js
 import { supabase } from '@/lib/supabaseClient';
 import bcrypt from 'bcrypt';
+
+export async function GET(req) {
+  const { data, error } = await supabase.from('users').select('id, username, role');
+
+  if (error) {
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+  }
+
+  return new Response(JSON.stringify(data), { status: 200 });
+}
 
 export async function POST(req) {
   const { username, password, role } = await req.json();
