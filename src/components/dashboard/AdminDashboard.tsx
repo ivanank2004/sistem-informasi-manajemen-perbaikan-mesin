@@ -1,30 +1,60 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
+
 export default function AdminDashboard() {
-  // Dummy data
-  const totalUsers = {
-    maintenance: 5,
-    logistics: 8,
-    field: 12,
-  };
+  const [totalUsers, setTotalUsers] = useState({ maintenance: 0, logistics: 0, field: 0 });
+  const [totalAssets, setTotalAssets] = useState({ active: 0, maintenance: 0, broken: 0 });
+  const [loading, setLoading] = useState(true);
 
-  const totalAssets = {
-    active: 10,
-    maintenance: 3,
-    broken: 2,
-  };
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
 
-  const workOrders = {
-    open: 4,
-    inProgress: 6,
-    done: 15,
-  };
+      // Fetch Users grouped by role
+      const { data: usersData, error: usersError } = await supabase
+        .from('users')
+        .select('role, id');
 
-  const incidentReports = {
-    pending: 3,
-    resolved: 5,
-    investigating: 2,
-  };
+      if (usersError) {
+        console.error('Error fetching users:', usersError);
+      } else {
+        const counts = { maintenance: 0, logistics: 0, field: 0 };
+        usersData.forEach((user) => {
+          if (user.role === 'maintenance') counts.maintenance += 1;
+          else if (user.role === 'logistics') counts.logistics += 1;
+          else if (user.role === 'field_worker') counts.field += 1;
+        });
+        setTotalUsers(counts);
+      }
+
+      // Fetch Assets grouped by status
+      const { data: assetsData, error: assetsError } = await supabase
+        .from('assets')
+        .select('status, id');
+
+      if (assetsError) {
+        console.error('Error fetching assets:', assetsError);
+      } else {
+        const counts = { active: 0, maintenance: 0, broken: 0 };
+        assetsData.forEach((asset) => {
+          if (asset.status === 'active') counts.active += 1;
+          else if (asset.status === 'maintenance') counts.maintenance += 1;
+          else if (asset.status === 'broken') counts.broken += 1;
+        });
+        setTotalAssets(counts);
+      }
+
+      setLoading(false);
+    }
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <p>Loading dashboard...</p>;
+  }
 
   return (
     <div className="space-y-6">
@@ -45,22 +75,23 @@ export default function AdminDashboard() {
           <p>Broken: {totalAssets.broken}</p>
         </div>
 
-        {/* Work Orders Summary */}
+        {/* Work Orders Summary (dummy) */}
         <div className="bg-white p-6 rounded-2xl shadow-md">
           <h3 className="text-xl font-semibold text-[#1565C0] mb-2">Work Orders Summary</h3>
-          <p>Open: {workOrders.open}</p>
-          <p>In Progress: {workOrders.inProgress}</p>
-          <p>Done: {workOrders.done}</p>
+          <p>Open: 4</p>
+          <p>In Progress: 6</p>
+          <p>Done: 15</p>
         </div>
       </div>
 
-      {/* Incident Reports Summary */}
+      {/* Incident Reports Summary (dummy) */}
       <div className="bg-white p-6 rounded-2xl shadow-md w-full">
         <h3 className="text-xl font-semibold text-[#1565C0] mb-2">Incident Reports Summary</h3>
-        <p>Pending: {incidentReports.pending}</p>
-        <p>Investigating: {incidentReports.investigating}</p>
-        <p>Resolved: {incidentReports.resolved}</p>
+        <p>Pending: 3</p>
+        <p>Investigating: 2</p>
+        <p>Resolved: 5</p>
       </div>
+      
     </div>
   );
 }

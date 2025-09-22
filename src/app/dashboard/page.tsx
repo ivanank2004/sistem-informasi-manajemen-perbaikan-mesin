@@ -67,7 +67,7 @@ export default function DashboardPage() {
       <main className="flex-1 p-8">
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-[#1565C0]">
-            Selamat Datang, {user.username}!
+            Dashboard
           </h1>
         </header>
 
