@@ -12,6 +12,7 @@ export const sidebarMenu: Record<'admin' | 'maintenance' | 'logistics', MenuItem
   ],
   maintenance: [
     { label: 'Dashboard', icon: 'dashboard', path: '/dashboard' },
+    { label: 'Incident Report', icon: 'incident', path: '/dashboard/maintenance/incident' },
     {
       label: 'Maintenance',
       icon: 'maintenance',

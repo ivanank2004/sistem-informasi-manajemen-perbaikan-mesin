@@ -29,7 +29,7 @@ export default function Sidebar({ role, onNavigate }: SidebarProps) {
 
   return (
     <aside className="w-64 bg-[#1565C0] text-white flex flex-col p-6 sticky top-0 h-screen">
-      <h2 className="text-xl font-bold mb-10">PT Agro Maju Indo</h2>
+      <h2 className="text-xl font-bold mb-10">SIMM</h2>
 
       <nav className="space-y-2 overflow-y-auto flex-1">
         {sidebarMenu[role].map((item: MenuItem, i: number) => (

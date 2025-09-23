@@ -58,7 +58,7 @@ export default function LoginPage() {
       {/* ===== Card Login ===== */}
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         <h1 className="text-3xl font-bold text-[#1565C0] mb-6 text-center">
-          PT AGRO MAJU INDO
+          SIMM
         </h1>
         <p className="text-[#263238] text-center mb-6">Selamat datang</p>
 
